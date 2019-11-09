@@ -96,7 +96,7 @@ app.get("/api/shorturl/:short_url", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    res.json(data);
+    res.redirect(data.original_url);
   });
 });
 
