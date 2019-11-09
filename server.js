@@ -49,7 +49,7 @@ var countURLs = function (done) {
   });
 }
 
-var createURL = function (url, done) {
+var createURL = function (original_url, done) {
   countURLs(function (err, count) {
     if (err) { done(err); }
     else {
@@ -71,7 +71,12 @@ app.post("/api/shorturl/new", function (req, res, next) {
     if (err) {
       return (next(err));
     }
-    res.json(data);
+    
+    var url = {
+      original_url: data.original_url,
+      short_url: data.short_url
+    }
+    res.json(url);
   });
 });
 
@@ -91,11 +96,13 @@ app.get("/api/shorturl/:short_url", function (req, res, next) {
     if (err) {
       return next(err);
     }
-    else {
-      res.json(data);
-    }
+    res.json(data);
   });
 });
+
+var dns = require('dns');
+dns.lookup('gnu.org', (err, address, family) =>
+  console.log('address: %j family: IPv%s, error %s', address, family, err));
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
