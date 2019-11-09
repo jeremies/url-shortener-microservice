@@ -36,7 +36,9 @@ var URLSchema = new Schema({
   url: String
 });
 
+var URL = mongoose.model('URL', URLSchema);
 
+var
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
