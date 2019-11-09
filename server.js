@@ -40,18 +40,15 @@ var URLSchema = new Schema({
 var URL = mongoose.model('URL', URLSchema);
 
 var checkURL = function (url, done) {
-  dns.lookup(url, function(err, address, family) {
+  dns.lookup(url, function(err) {
     if (err) {
       done({ error: "Invalid URL" });
     }
     else {
-      done(null,address);
+      done(null);
     }
-  }
-             =>
-  console.log('address: %j family: IPv%s, error %s', address, family, err));
-  
-}
+  });
+};
 
 var countURLs = function (done) {
   URL.estimatedDocumentCount(function (err, count) {
@@ -82,17 +79,25 @@ var createURL = function (original_url, done) {
 }
 
 app.post("/api/shorturl/new", function (req, res, next) {
-  createURL(req.body.url, function (err, data) {
+  checkURL(req.body.url), function(err) {
     if (err) {
-      return (next(err));
+      res.json(err);
     }
-    
-    var url = {
-      original_url: data.original_url,
-      short_url: data.short_url
+    else {
+      createURL(req.body.url, function (err, data) {
+        if (err) {
+          return (next(err));
+        }
+
+        var url = {
+          original_url: data.original_url,
+          short_url: data.short_url
+        }
+        res.json(url);
+      });
     }
-    res.json(url);
-  });
+  }
+
 });
 
 var findURLByShortURL = function (short_url, done) {
