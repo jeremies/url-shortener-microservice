@@ -40,6 +40,7 @@ var URLSchema = new Schema({
 var URL = mongoose.model('URL', URLSchema);
 
 var checkURL = function (url, done) {
+  var regex = "/^https?:\/\/\w+\.\w+(\/\w*)*$/"
   var hostname = 
   dns.lookup(url, function(err) {
     console.log(err);
