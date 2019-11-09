@@ -4,6 +4,7 @@ var express = require('express');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
+var dns = require('dns');
 
 var cors = require('cors');
 
@@ -37,6 +38,20 @@ var URLSchema = new Schema({
 });
 
 var URL = mongoose.model('URL', URLSchema);
+
+var checkURL = function (url, done) {
+  dns.lookup(url, function(err, address, family) {
+    if (err) {
+      done({ error: "Invalid URL" });
+    }
+    else {
+      done(null,address);
+    }
+  }
+             =>
+  console.log('address: %j family: IPv%s, error %s', address, family, err));
+  
+}
 
 var countURLs = function (done) {
   URL.estimatedDocumentCount(function (err, count) {
@@ -99,10 +114,6 @@ app.get("/api/shorturl/:short_url", function (req, res, next) {
     res.redirect(data.original_url);
   });
 });
-
-var dns = require('dns');
-dns.lookup('gnu.org', (err, address, family) =>
-  console.log('address: %j family: IPv%s, error %s', address, family, err));
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
