@@ -38,9 +38,25 @@ var URLSchema = new Schema({
 
 var URL = mongoose.model('URL', URLSchema);
 
-URL.estimatedDocumentCount(function (err, data) {
-  console.log(data);
-});
+var countURLs = function (done) {
+  URL.estimatedDocumentCount(function (err, count) {
+    if (err) {
+      done(err);
+    }
+    else {
+      done(null, count);
+    }
+  });
+}
+
+var createURL = function (url, done) {
+  countURLs(function (err, count) {
+    if (err) { done(err); }
+    else {
+      var url = new URL({ id: count, url: url});
+    }
+  });
+}
 
 app.post("/api/shorturl/new", function (req, res, next) {
   console.log(req.body.url);
