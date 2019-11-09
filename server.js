@@ -43,7 +43,13 @@ URL.estimatedDocumentCount(function (err, data) {
 });
 
 app.post("/api/shorturl/new", function (req, res, next) {
+  console.log(req.body.url);
+  var url = new URL({ id})
   
+  var url = {
+    original_url: req.body.url,
+    
+  }
 });
 
 app.listen(port, function () {
