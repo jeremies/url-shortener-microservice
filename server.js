@@ -33,7 +33,7 @@ var Schema = mongoose.Schema;
 
 var URLSchema = new Schema({
   short_url:  Number,
-  url: String
+  original_url: String  
 });
 
 var URL = mongoose.model('URL', URLSchema);
@@ -53,7 +53,7 @@ var createURL = function (url, done) {
   countURLs(function (err, count) {
     if (err) { done(err); }
     else {
-      var url = new URL({ short_url: count, url: url});
+      var url = new URL({ short_url: count, original_url: url});
       url.save(function (err, data) {
         if (err) {
           done(err);
@@ -67,14 +67,27 @@ var createURL = function (url, done) {
 }
 
 app.post("/api/shorturl/new", function (req, res, next) {
-  console.log(req.body.url);
-  
   createURL(req.body.url, function (err, data) {
     if (err) {
       return (next(err));
     }
     res.json(data);
   });
+});
+
+var findURLByShortURL = function (short_url, done) {
+  URL.findOne({ short_url: short_url }, function (err, data) {
+    if (err) {
+      done(err);
+    }
+    else {
+      done(null, data);
+    }
+  });  
+}
+
+app.get("/api/shorturl/:short_url", function (req, res, next) {
+  console.log
 });
 
 app.listen(port, function () {
