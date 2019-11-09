@@ -41,11 +41,15 @@ var URL = mongoose.model('URL', URLSchema);
 
 var checkURL = function (url, done) {
   var regex = "/^https?:\/\/\w+\.\w+(\/\w*)*$/"
+  var error = { error: "Invalid URL" };
+  if (!regex.test(url)) {
+    return done(error)
+  }
   var hostname = 
   dns.lookup(url, function(err) {
     console.log(err);
     if (err) {
-      done({ error: "Invalid URL" });
+      done(error);
     }
     else {
       done(null, url);
