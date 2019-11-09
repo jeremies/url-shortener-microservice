@@ -10,11 +10,11 @@
 
 #### Creation Example:
 
-POST [project_url]/api/shorturl/new - body (urlencoded) :  url=https://www.google.com
+POST https://sepia-juniper.glitch.me/api/shorturl/new - body (urlencoded) :  url=https://www.freecodecamp.org/forum/
 
 #### Usage:
 
-[this_project_url]/api/shorturl/3
+https://sepia-juniper.glitch.me/api/shorturl/3
 
 #### Will redirect to:
 
