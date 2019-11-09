@@ -53,7 +53,7 @@ var createURL = function (url, done) {
   countURLs(function (err, count) {
     if (err) { done(err); }
     else {
-      var url = new URL({ short_url: count, original_url: url});
+      var url = new URL({ short_url: count, original_url: original_url});
       url.save(function (err, data) {
         if (err) {
           done(err);
@@ -87,7 +87,14 @@ var findURLByShortURL = function (short_url, done) {
 }
 
 app.get("/api/shorturl/:short_url", function (req, res, next) {
-  console.log
+  findURLByShortURL(req.params["short_url"], function (err, data) {
+    if (err) {
+      return next(err);
+    }
+    else {
+      res.json(data);
+    }
+  });
 });
 
 app.listen(port, function () {
