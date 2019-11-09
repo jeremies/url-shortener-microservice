@@ -32,7 +32,7 @@ app.get("/api/hello", function (req, res) {
 var Schema = mongoose.Schema;
 
 var URLSchema = new Schema({
-  id:  Number,
+  short_url:  Number,
   url: String
 });
 
@@ -53,19 +53,28 @@ var createURL = function (url, done) {
   countURLs(function (err, count) {
     if (err) { done(err); }
     else {
-      var url = new URL({ id: count, url: url});
+      var url = new URL({ short_url: count, url: url});
+      url.save(function (err, data) {
+        if (err) {
+          done(err);
+        }
+        else {
+          done(null, data);
+        }
+      });
     }
   });
 }
 
 app.post("/api/shorturl/new", function (req, res, next) {
   console.log(req.body.url);
-  var url = new URL({ id})
   
-  var url = {
-    original_url: req.body.url,
-    
-  }
+  createURL(req.body.url, function (err, data) {
+    if (err) {
+      return (next(err));
+    }
+    res.json(data);
+  });
 });
 
 app.listen(port, function () {
