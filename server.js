@@ -38,7 +38,13 @@ var URLSchema = new Schema({
 
 var URL = mongoose.model('URL', URLSchema);
 
-var
+URL.estimatedDocumentCount(function (err, data) {
+  console.log(data);
+});
+
+app.post("/api/shorturl/new", function (req, res, next) {
+  
+});
 
 app.listen(port, function () {
   console.log('Node.js listening ...');
