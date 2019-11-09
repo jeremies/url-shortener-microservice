@@ -1,6 +1,6 @@
 # API Project: URL Shortener Microservice for freeCodeCamp
 
-
+Home of the project: https://sepia-juniper.glitch.me
 ### User Stories
 
 1. I can POST a URL to `[project_url]/api/shorturl/new` and I will receive a shortened URL in the JSON response. Example : `{"original_url":"www.google.com","short_url":1}`
@@ -14,7 +14,7 @@ POST https://sepia-juniper.glitch.me/api/shorturl/new - body (urlencoded) :  url
 
 #### Usage:
 
-https://sepia-juniper.glitch.me/api/shorturl/3
+https://sepia-juniper.glitch.me/api/shorturl/17
 
 #### Will redirect to:
 
